@@ -27,10 +27,10 @@ router.get("/:id", async (req, res) => {
 });
 
 //Create users
-router.post("/", async (req, res) => {
+router.post("/auth/register", async (req, res) => {
     try {
-        const { name, email } = req.body;
-        const newUser = new User({ name, email });
+        const { name, email, password } = req.body;
+        const newUser = new User({ name, email, password });
         await newUser.save();
         res.status(201).json(newUser);
     } catch (err) {
@@ -41,8 +41,8 @@ router.post("/", async (req, res) => {
 //Update a user by ID
 router.put("/:id", async (req, res) => {
     try {
-        const { name, email } = req.body;
-        const user = await User.findByIdAndUpdate(req.params.id, { name, email }, { new: true });
+        const { name, email, password } = req.body;
+        const user = await User.findByIdAndUpdate(req.params.id, { name, email, password }, { new: true });
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }

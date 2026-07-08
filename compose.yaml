@@ -23,6 +23,7 @@ services:
       - mongo
     environment:
       MONGO_URI: mongodb://root:example@mongo:27017/gym?authSource=admin
+      JWT_SECRET: hello
 
   mongo:
     image: mongo:7.0.3
