@@ -1,0 +1,37 @@
+services:
+
+  frontend:
+    image: node:22
+    working_dir: /usr/src/app
+    volumes:
+      - ./app-frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+
+  backend:
+    image: node:22
+    working_dir: /usr/src/app
+    volumes:
+      - ./app-backend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "9000:9000"
+    command: sh -c "npm install && npm start"
+    links:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017/gym?authSource=admin
+
+  mongo:
+    image: mongo:7.0.3
+    volumes:
+      - ./data:/data/db
+
+    ports: 
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
