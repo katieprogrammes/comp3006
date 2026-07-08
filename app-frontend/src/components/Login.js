@@ -10,7 +10,7 @@ const Login = ({ setLoggedInUser }) => {
     });
     const [message, setMessage] = useState('');
 
-    const { name, email, password } = formData;
+    const { email, password } = formData;
 
     const onChange = e => setFormData({ ...formData, 
                                       [e.target.name]: e.target.value });
@@ -25,7 +25,8 @@ const Login = ({ setLoggedInUser }) => {
                 password
             });
             localStorage.setItem('token', res.data.token);
-            setLoggedInUser(name);
+            console.log("Setting logged in user to:", email);
+            setLoggedInUser(email);
             
             // Set success message
             setMessage('Logged in successfully');
