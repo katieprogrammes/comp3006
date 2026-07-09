@@ -19,20 +19,27 @@ services:
     ports:
       - "9000:9000"
     command: sh -c "npm install && npm start"
-    links:
-      - mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
     environment:
       MONGO_URI: mongodb://root:example@mongo:27017/gym?authSource=admin
       JWT_SECRET: hello
-
+  
+  
   mongo:
     image: mongo:7.0.3
     volumes:
       - ./data:/data/db
-
     ports: 
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --username root --password example --authenticationDatabase admin --eval 'db.adminCommand({ ping: 1 })' --quiet"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 

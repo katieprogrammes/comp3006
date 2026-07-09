@@ -1,7 +1,7 @@
-// client/src/App.js
 import React, { useState } from 'react';
 import Register from './components/Register';
 import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
@@ -15,10 +15,10 @@ const App = () => {
         <div className="App">
             
             {loggedInUser ? (
-                <div>
-                    <p>Welcome {loggedInUser}</p>
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
+                <Dashboard
+                    loggedInUser={loggedInUser}
+                    handleLogout={handleLogout}
+                />
             ) : (
                 <div>
                     <Register />
