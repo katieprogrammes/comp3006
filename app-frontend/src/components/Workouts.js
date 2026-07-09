@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Workouts = ({ setCurrentPage }) => {
     const [workoutName, setWorkoutName] = useState("");
@@ -6,6 +6,20 @@ const Workouts = ({ setCurrentPage }) => {
     const [muscleGroup, setMuscleGroup] = useState("");
     const [date, setDate] = useState("");
     const [notes, setNotes] = useState("");
+
+    const [workouts, setWorkouts] = useState([]);
+
+     const fetchWorkouts = async () => {
+        try {
+            const response = await fetch("http://localhost:9000/workouts");
+            const data = await response.json();
+            setWorkouts(data);
+        } catch (error) {
+            console.error("Error fetching workouts:", error);
+        }
+    };
+
+    useEffect(() => {fetchWorkouts();}, []);
 
     const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +54,8 @@ const Workouts = ({ setCurrentPage }) => {
         setMuscleGroup("");
         setDate("");
         setNotes("");
+
+        fetchWorkouts();
 
     } catch (error) {
         console.error("Error creating workout:", error);
@@ -117,7 +133,24 @@ const Workouts = ({ setCurrentPage }) => {
             </section>
             <section>
                 <h2>My Workouts</h2>
-                <p>Your saved workouts will appear here.</p>
+                {workouts.length === 0 ? (
+                    <p>No workouts found.</p>
+                ) : (
+                    workouts.map((workout) => (
+                        <div key={workout._id} className="card mt-3">
+                            <div className="card-body">
+                                <h3>{workout.workoutName}</h3>
+                                <p>Type: {workout.workoutType}</p>
+                                <p>Muscle Group: {workout.muscleGroup}</p>
+                                <p>
+                                    Date:{" "}
+                                    {new Date(workout.date).toLocaleDateString()}
+                                </p>
+                                <p>Notes: {workout.notes}</p>
+                            </div>
+                        </div>
+                    ))
+                )}
             </section>
         </div>
     );

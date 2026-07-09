@@ -41,6 +41,7 @@ router.post("/", async (req, res) => {
         });
         res.status(201).json(workout);
     } catch (err) {
+        console.error("Error creating workout:", err);
         res.status(500).json({ error: err.message });
     }
 });
@@ -61,7 +62,7 @@ router.put("/:id", async (req, res) => {
             },
             { new: true }
         );
-        
+
         if (!workout) {
             return res.status(404).json({ error: "Workout not found" });
         }
