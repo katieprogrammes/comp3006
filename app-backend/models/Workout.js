@@ -1,15 +1,31 @@
 import mongoose from "mongoose";
 
 const workoutSchema = new mongoose.Schema({
-    name: {
+    /*userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },*/
+    workoutName: {
+        type: String,
+        required: true
+    },
+    workoutType: {
         type: String,
         required: true,
-        unique: true
+        enum: ["Strength", "Cardio", "Flexibility", "Mixed"]
     },
     muscleGroup: {
         type: String,
-        required: true,
-        unique: false
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    notes: {
+        type: String,
+        required: false
     }
 });
 

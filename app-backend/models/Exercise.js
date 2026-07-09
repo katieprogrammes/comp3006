@@ -2,14 +2,18 @@ import mongoose from "mongoose";
 
 const exerciseSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId, ref: "User",
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User",
         required: true,
-        unique: true
     },
     workoutId: {
-        type: mongoose.Schema.Types.ObjectId, ref: "Workout",
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Workout",
         required: true,
-        unique: true
+    },
+    name: {
+        type: String,
+        required: true
     },
     sets: {
         type: Number,

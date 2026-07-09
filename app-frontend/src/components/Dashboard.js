@@ -1,19 +1,19 @@
 import React from "react";
 
-const Dashboard = ({ loggedInUser, handleLogout }) => {
+const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
     return (
         <div>
             <h1>Gym Workout Record System</h1>
 
             <h2>Welcome {loggedInUser}</h2>
 
-            <button>Create Workout</button>
+            <button className="btn btn-info" onClick={() => setCurrentPage("workouts")}>
+                Workouts
+            </button>
 
-            <button>View Workouts</button>
+            <button className="btn btn-success">Exercise Library</button>
 
-            <button>Exercise Library</button>
-
-            <button onClick={handleLogout}>
+            <button onClick={handleLogout} className="btn btn-danger">
                 Logout
             </button>
         </div>

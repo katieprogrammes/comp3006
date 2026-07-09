@@ -30,8 +30,15 @@ router.get("/:id", async (req, res) => {
 //Create workouts
 router.post("/", async (req, res) => {
     try {
-        const { name, muscleGroup } = req.body;
-        const workout = await Workout.create({ name, muscleGroup });
+        const { workoutName, workoutType, muscleGroup, date, notes } = req.body;
+
+        const workout = await Workout.create({
+            workoutName,
+            workoutType,
+            muscleGroup,
+            date,
+            notes
+        });
         res.status(201).json(workout);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -41,8 +48,20 @@ router.post("/", async (req, res) => {
 //Update a workout by ID
 router.put("/:id", async (req, res) => {
     try {
-        const { name, muscleGroup } = req.body;
-        const workout = await Workout.findByIdAndUpdate(req.params.id, { name, muscleGroup }, { new: true });
+        const { workoutName, workoutType, muscleGroup, date, notes } = req.body;
+
+        const workout = await Workout.findByIdAndUpdate(
+            req.params.id,
+            {
+                workoutName,
+                workoutType,
+                muscleGroup,
+                date,
+                notes
+            },
+            { new: true }
+        );
+        
         if (!workout) {
             return res.status(404).json({ error: "Workout not found" });
         }
