@@ -6,6 +6,7 @@ const Workouts = ({ setCurrentPage }) => {
     const [muscleGroup, setMuscleGroup] = useState("");
     const [date, setDate] = useState("");
     const [notes, setNotes] = useState("");
+    const [editingWorkoutId, setEditingWorkoutId] = useState(null);
 
     const [workouts, setWorkouts] = useState([]);
 
@@ -24,7 +25,7 @@ const Workouts = ({ setCurrentPage }) => {
     const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newWorkout = {
+    const workoutData = {
         workoutName,
         workoutType,
         muscleGroup,
@@ -33,33 +34,64 @@ const Workouts = ({ setCurrentPage }) => {
     };
 
     try {
-        const response = await fetch("http://localhost:9000/workouts", {
-            method: "POST",
+        const url = editingWorkoutId
+            ? `http://localhost:9000/workouts/${editingWorkoutId}`
+            : "http://localhost:9000/workouts";
+
+        const method = editingWorkoutId ? "PUT" : "POST";
+
+        const response = await fetch(url, {
+            method: method,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             },
-            body: JSON.stringify(newWorkout)
+            body: JSON.stringify(workoutData)
         });
 
         if (!response.ok) {
-            throw new Error("Failed to create workout");
+            throw new Error("Failed to save workout");
         }
-
-        const data = await response.json();
-        console.log("Workout created:", data);
 
         setWorkoutName("");
         setWorkoutType("");
         setMuscleGroup("");
         setDate("");
         setNotes("");
+        setEditingWorkoutId(null);
 
         fetchWorkouts();
 
     } catch (error) {
-        console.error("Error creating workout:", error);
+        console.error("Error saving workout:", error);
     }
+};
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:9000/workouts/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete workout");
+            }
+
+            fetchWorkouts();
+        } catch (error) {
+            console.error("Error deleting workout:", error);
+        }
+    };
+
+    const handleEdit = (workout) => {
+        setEditingWorkoutId(workout._id);
+        setWorkoutName(workout.workoutName);
+        setWorkoutType(workout.workoutType);
+        setMuscleGroup(workout.muscleGroup);
+        setDate(workout.date.split("T")[0]);
+        setNotes(workout.notes || "");
     };
 
     return (
@@ -70,7 +102,7 @@ const Workouts = ({ setCurrentPage }) => {
             <h1>Workouts</h1>
 
             <section>
-                <h2>Create a New Workout</h2>
+                <h2>{editingWorkoutId ? "Edit Workout" : "Create a New Workout"}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="workoutName" className="form-label">Workout Name:</label>
@@ -127,8 +159,24 @@ const Workouts = ({ setCurrentPage }) => {
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">
-                        Create Workout
+                        {editingWorkoutId ? "Update Workout" : "Create Workout"}
                     </button>
+                    {editingWorkoutId && (
+                    <button
+                        type="button"
+                        className="btn btn-secondary ms-2"
+                        onClick={() => {
+                            setWorkoutName("");
+                            setWorkoutType("");
+                            setMuscleGroup("");
+                            setDate("");
+                            setNotes("");
+                            setEditingWorkoutId(null);
+                        }}
+                    >
+                        Cancel Edit
+                    </button>
+                    )}
                 </form>
             </section>
             <section>
@@ -147,6 +195,14 @@ const Workouts = ({ setCurrentPage }) => {
                                     {new Date(workout.date).toLocaleDateString()}
                                 </p>
                                 <p>Notes: {workout.notes}</p>
+                                <div className="btn-group">
+                                    <button className="btn btn-secondary" onClick={() => handleEdit(workout)}>
+                                        Edit Workout
+                                    </button>
+                                    <button className="btn btn-danger" onClick={() => handleDelete(workout._id)}>
+                                        Delete Workout
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))
