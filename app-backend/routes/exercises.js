@@ -2,10 +2,24 @@ import express from "express";
 import User from "../models/User.js";
 import Workout from "../models/Workout.js";
 import Exercise from "../models/Exercise.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+router.use(authMiddleware);
 
-//Get all exercises
+//Get exercises for a specific workout
+router.get("/workout/:workoutId", authMiddleware, async (req, res) => {
+    try {
+        const exercises = await Exercise.find({ 
+            userId: req.user.id,
+            workoutId: req.params.workoutId });
+        res.json(exercises);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+//Get all exercises for the logged-in user
 router.get("/", async (req, res) => {
   try {
     const exercises = await Exercise.find();
@@ -18,7 +32,7 @@ router.get("/", async (req, res) => {
 //Get an exercise by ID
 router.get("/:id", async (req, res) => {
     try {
-        const exercise = await Exercise.findById(req.params.id);
+        const exercise = await Exercise.findOne({ _id: req.params.id, userId: req.user.id });
         if (!exercise) {
             return res.status(404).json({ error: "Exercise not found" });
         }
@@ -28,23 +42,28 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-//Create exercises
+//Create exercise
 router.post("/", async (req, res) => {
     try {
-        const { userId, workoutId, sets, reps, weight, date, notes } = req.body;
-        const newExercise = new Exercise({ userId, workoutId, sets, reps, weight, date, notes });
-        await newExercise.save();
+        const {workoutId, exerciseName, sets, reps, weight, notes } = req.body;
+        const workout = await Workout.findOne({ _id: workoutId, userId: req.user.id });
+        if (!workout) {
+            return res.status(404).json({ error: "Workout not found" });
+        }
+
+        const newExercise = await Exercise.create({ userId: req.user.id, workoutId, exerciseName, sets, reps, weight, notes });
         res.status(201).json(newExercise);
     } catch (err) {
+        console.error("Error creating exercise:", err);
         res.status(500).json({ error: err.message });
     }
 });
 
-//Update an exercise by ID
+//Update an exercise by ID, ensuring it belongs to the logged-in user
 router.put("/:id", async (req, res) => {
     try {
-        const { userId, workoutId, sets, reps, weight, date, notes } = req.body;
-        const exercise = await Exercise.findByIdAndUpdate(req.params.id, { userId, workoutId, sets, reps, weight, date, notes }, { new: true });
+        const { workoutId, exerciseName, sets, reps, weight, notes } = req.body;
+        const exercise = await Exercise.findOneAndUpdate({ _id: req.params.id, userId: req.user.id }, { workoutId, exerciseName, sets, reps, weight, notes }, { new: true });
         if (!exercise) {
             return res.status(404).json({ error: "Exercise not found" });
         }
@@ -54,10 +73,10 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-//Delete an exercise by ID
+//Delete an exercise by ID, ensuring it belongs to the logged-in user
 router.delete("/:id", async (req, res) => {
     try {
-        const exercise = await Exercise.findByIdAndDelete(req.params.id);
+        const exercise = await Exercise.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
         if (!exercise) {
             return res.status(404).json({ error: "Exercise not found" });
         }

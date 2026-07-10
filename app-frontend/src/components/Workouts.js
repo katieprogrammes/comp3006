@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Exercises from "./Exercises";
 
 const Workouts = ({ setCurrentPage }) => {
     const [workoutName, setWorkoutName] = useState("");
@@ -7,6 +8,8 @@ const Workouts = ({ setCurrentPage }) => {
     const [date, setDate] = useState("");
     const [notes, setNotes] = useState("");
     const [editingWorkoutId, setEditingWorkoutId] = useState(null);
+
+    const [selectedWorkout, setSelectedWorkout] = useState(null);
 
     const [workouts, setWorkouts] = useState([]);
 
@@ -98,6 +101,15 @@ const Workouts = ({ setCurrentPage }) => {
         setDate(workout.date.split("T")[0]);
         setNotes(workout.notes || "");
     };
+
+    if (selectedWorkout) {
+    return (
+        <Exercises
+            workout={selectedWorkout}
+            setSelectedWorkout={setSelectedWorkout}
+        />
+    );
+}
 
     return (
         <div>
@@ -201,6 +213,9 @@ const Workouts = ({ setCurrentPage }) => {
                                 </p>
                                 <p>Notes: {workout.notes}</p>
                                 <div className="btn-group">
+                                    <button className="btn btn-info" onClick={() => setSelectedWorkout(workout)}>
+                                        View Exercises
+                                    </button>
                                     <button className="btn btn-secondary" onClick={() => handleEdit(workout)}>
                                         Edit Workout
                                     </button>

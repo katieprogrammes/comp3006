@@ -11,7 +11,7 @@ const exerciseSchema = new mongoose.Schema({
         ref: "Workout",
         required: true,
     },
-    name: {
+    exerciseName: {
         type: String,
         required: true
     },
@@ -25,10 +25,6 @@ const exerciseSchema = new mongoose.Schema({
     },
     weight: {
         type: Number,
-        required: true
-    },
-    date: {
-        type: Date,
         required: true
     },
     notes: {

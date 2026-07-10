@@ -11,7 +11,7 @@ const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
                 Workouts
             </button>
 
-            <button className="btn btn-success">Exercise Library</button>
+
 
             <button onClick={handleLogout} className="btn btn-danger">
                 Logout
