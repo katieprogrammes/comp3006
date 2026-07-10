@@ -1,4 +1,5 @@
 import React from "react";
+import WebSocketTest from "./WebSocketTest";
 
 const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
     return (
@@ -16,6 +17,8 @@ const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
             <button onClick={handleLogout} className="btn btn-danger">
                 Logout
             </button>
+
+            <WebSocketTest />
         </div>
     );
 };
