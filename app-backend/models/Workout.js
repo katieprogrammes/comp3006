@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const workoutSchema = new mongoose.Schema({
-    /*userId: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
-    },*/
+    },
     workoutName: {
         type: String,
         required: true

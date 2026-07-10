@@ -1,13 +1,14 @@
 import express from "express";
-import User from "../models/User.js";
 import Workout from "../models/Workout.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+router.use(authMiddleware);
 
 //Get all workouts
 router.get("/", async (req, res) => {
   try {
-    const workouts = await Workout.find();
+    const workouts = await Workout.find({ userId: req.user.id });
     res.json(workouts);
   } catch (err) {
     res.status(500).json({ error: "Error fetching workouts" });
@@ -17,7 +18,7 @@ router.get("/", async (req, res) => {
 //Get a workout by ID
 router.get("/:id", async (req, res) => {
     try {
-        const workout = await Workout.findById(req.params.id);
+        const workout = await Workout.findOne({ _id: req.params.id, userId: req.user.id });
         if (!workout) {
             return res.status(404).json({ error: "Workout not found" });
         }
@@ -25,7 +26,7 @@ router.get("/:id", async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-});``
+});
 
 //Create workouts
 router.post("/", async (req, res) => {
@@ -33,6 +34,7 @@ router.post("/", async (req, res) => {
         const { workoutName, workoutType, muscleGroup, date, notes } = req.body;
 
         const workout = await Workout.create({
+            userId: req.user.id,
             workoutName,
             workoutType,
             muscleGroup,
@@ -51,9 +53,10 @@ router.put("/:id", async (req, res) => {
     try {
         const { workoutName, workoutType, muscleGroup, date, notes } = req.body;
 
-        const workout = await Workout.findByIdAndUpdate(
-            req.params.id,
+        const workout = await Workout.findOneAndUpdate(
+            { _id: req.params.id, userId: req.user.id },
             {
+                userId: req.user.id,
                 workoutName,
                 workoutType,
                 muscleGroup,
@@ -75,7 +78,7 @@ router.put("/:id", async (req, res) => {
 //Delete a workout by ID
 router.delete("/:id", async (req, res) => {
     try {
-        const workout = await Workout.findByIdAndDelete(req.params.id);
+        const workout = await Workout.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
         if (!workout) {
             return res.status(404).json({ error: "Workout not found" });
         }

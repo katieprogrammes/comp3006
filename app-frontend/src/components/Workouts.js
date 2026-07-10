@@ -12,7 +12,12 @@ const Workouts = ({ setCurrentPage }) => {
 
      const fetchWorkouts = async () => {
         try {
-            const response = await fetch("http://localhost:9000/workouts");
+            const response = await fetch("http://localhost:9000/workouts", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
             const data = await response.json();
             setWorkouts(data);
         } catch (error) {
