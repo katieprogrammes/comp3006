@@ -29,6 +29,76 @@ router.get("/", async (req, res) => {
   }
 });
 
+//Weekly Leaderboard Logic
+router.get("/leaderboard/weekly", async (req, res) => {
+    try {
+        const now = new Date();
+        const startOfWeek = new Date(now);
+        const day = startOfWeek.getDay();
+        const daysSinceMonday = day === 0 ? 6 : day - 1; //Adjust for Sunday being 0
+        startOfWeek.setDate(now.getDate() - daysSinceMonday);
+        startOfWeek.setHours(0, 0, 0, 0); //Set to the start of the day
+
+        const leaderboard = await Exercise.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: startOfWeek }
+                }
+            },
+            {
+                $sort: {
+                    weight: -1 //Sorts by weight in descending order
+                }
+            },
+            {
+                $group: {
+                    _id: "$userId",
+                    heaviestWeight: { $first: "$weight" },
+                    exerciseName: { $first: "$exerciseName" },
+                    sets: { $first: "$sets" },
+                    reps: { $first: "$reps" },
+                    createdAt: { $first: "$createdAt" }
+                }
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    userId: "$_id",
+                    name: "$user.name",
+                    heaviestWeight: 1,
+                    exerciseName: 1,
+                    sets: 1,
+                    reps: 1,
+                    createdAt: 1
+                }
+            },
+            {
+                $sort: {
+                    heaviestWeight: -1
+                }
+            }
+        ]);
+
+        res.json(leaderboard);
+    } catch (err) {
+        console.error("Error fetching leaderboard:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+
 //Get an exercise by ID
 router.get("/:id", async (req, res) => {
     try {

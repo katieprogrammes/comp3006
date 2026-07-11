@@ -12,7 +12,9 @@ const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
                 Workouts
             </button>
 
-
+            <button className="btn btn-info" onClick={() => setCurrentPage("leaderboard")}>
+                Leaderboard
+            </button>
 
             <button onClick={handleLogout} className="btn btn-danger">
                 Logout

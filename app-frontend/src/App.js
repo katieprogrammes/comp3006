@@ -3,6 +3,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Workouts from './components/Workouts';
+import Leaderboard from './components/Leaderboard';
 
 const App = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
@@ -18,6 +19,13 @@ const App = () => {
         if (currentPage === "workouts") {
             return (
                 <Workouts 
+                    setCurrentPage={setCurrentPage}
+                />
+            );
+        }
+        if (currentPage === "leaderboard") {
+            return (
+                <Leaderboard
                     setCurrentPage={setCurrentPage}
                 />
             );
