@@ -31,6 +31,9 @@ const exerciseSchema = new mongoose.Schema({
         type: String,
         required: false
     }
+},
+{
+    timestamps: true
 });
 
 export default mongoose.model("Exercise", exerciseSchema);
