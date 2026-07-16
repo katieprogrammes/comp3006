@@ -1,4 +1,11 @@
 /* client/src/components/style.css */
+.title {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 44px;
+    font-weight: bold;
+    color: #333;
+}
 .auth-form {
     width: 300px;
     margin: auto;
