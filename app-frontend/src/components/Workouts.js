@@ -75,6 +75,9 @@ const Workouts = ({ setCurrentPage }) => {
     }
 };
     const handleDelete = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this workout?");
+        if (!confirmDelete) return;
+        
         try {
             const response = await fetch(`http://localhost:9000/workouts/${id}`, {
                 method: "DELETE",
@@ -196,36 +199,78 @@ const Workouts = ({ setCurrentPage }) => {
                     )}
                 </form>
             </section>
-            <section>
+            <section className="mt-4">
                 <h2>My Workouts</h2>
+
                 {workouts.length === 0 ? (
                     <p>No workouts found.</p>
                 ) : (
-                    workouts.map((workout) => (
-                        <div key={workout._id} className="card mt-3">
-                            <div className="card-body">
-                                <h3>{workout.workoutName}</h3>
-                                <p>Type: {workout.workoutType}</p>
-                                <p>Muscle Group: {workout.muscleGroup}</p>
-                                <p>
-                                    Date:{" "}
-                                    {new Date(workout.date).toLocaleDateString()}
-                                </p>
-                                <p>Notes: {workout.notes}</p>
-                                <div className="btn-group">
-                                    <button className="btn btn-info" onClick={() => setSelectedWorkout(workout)}>
-                                        View Exercises
-                                    </button>
-                                    <button className="btn btn-secondary" onClick={() => handleEdit(workout)}>
-                                        Edit Workout
-                                    </button>
-                                    <button className="btn btn-danger" onClick={() => handleDelete(workout._id)}>
-                                        Delete Workout
-                                    </button>
+                    <div className="row">
+                        {workouts.map((workout) => (
+                            <div key={workout._id} className="col-md-6 col-lg-4 mb-4">
+                                <div className="card h-100">
+                                    <div className="card-body d-flex flex-column">
+                                        <h3 className="card-title">
+                                            {workout.workoutName}
+                                        </h3>
+
+                                        <p className="card-text">
+                                            <strong>Type:</strong>{" "}
+                                            {workout.workoutType}
+                                        </p>
+
+                                        <p className="card-text">
+                                            <strong>Muscle group:</strong>{" "}
+                                            {workout.muscleGroup}
+                                        </p>
+
+                                        <p className="card-text">
+                                            <strong>Date:</strong>{" "}
+                                            {new Date(
+                                                workout.date
+                                            ).toLocaleDateString()}
+                                        </p>
+
+                                        {workout.notes && (
+                                            <p className="card-text">
+                                                <strong>Notes:</strong>{" "}
+                                                {workout.notes}
+                                            </p>
+                                        )}
+
+                                        <div className="mt-auto">
+                                            <button
+                                                className="btn btn-primary me-2 mb-2"
+                                                onClick={() =>
+                                                    setSelectedWorkout(workout)
+                                                }
+                                            >
+                                                Manage Exercises
+                                            </button>
+
+                                            <button
+                                                className="btn btn-secondary me-2 mb-2"
+                                                onClick={() =>
+                                                    handleEdit(workout)
+                                                }
+                                            >
+                                                Edit
+                                            </button>
+
+                                            <button
+                                                className="btn btn-danger mb-2"
+                                                onClick={() =>
+                                                    handleDelete(workout._id)
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
+                        ))}
+                    </div>
                 )}
             </section>
         </div>

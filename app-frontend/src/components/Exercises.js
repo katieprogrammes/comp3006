@@ -134,6 +134,9 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
             </button>
 
             <h1>Exercises for {workout.workoutName}</h1>
+            <p>
+                {workout.workoutType} · {workout.muscleGroup}
+            </p>
 
             <section>
                 <h2>{editingExerciseId ? "Edit Exercise" : "Create a New Exercise"}</h2>
