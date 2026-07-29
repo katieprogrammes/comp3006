@@ -6,7 +6,7 @@ const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
         <div>
             <h1 className="title">Gym Workout Record System</h1>
 
-            <h2 className="text-center">Welcome {loggedInUser}</h2>
+            <h2 className="text-center">Welcome {loggedInUser?.name}</h2>
 
             <button className="btn btn-info" onClick={() => setCurrentPage("workouts")}>
                 Workouts

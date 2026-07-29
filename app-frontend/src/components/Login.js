@@ -26,6 +26,7 @@ const Login = ({ setLoggedInUser }) => {
             });
             localStorage.setItem('token', res.data.token);
             console.log("Setting logged in user to:", email);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
             setLoggedInUser(email);
             
             // Set success message

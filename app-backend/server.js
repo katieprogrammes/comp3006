@@ -41,7 +41,8 @@ const connectToMongo = async () => {
             console.log("Connected to MongoDB");
             break;
         } catch (err) {
-            console.error("MongoDB not ready yet. Retrying in 3 seconds...");
+            console.error("MongoDB connection failed:", err.message);
+            console.error("Retrying in 3 seconds...");
             await new Promise((resolve) => setTimeout(resolve, 3000));
         }
     }
