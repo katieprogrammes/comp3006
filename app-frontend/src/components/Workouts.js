@@ -122,17 +122,19 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
 }
 
     return (
-        <div>
-            <button className="btn btn-secondary" onClick={() => setCurrentPage("dashboard")}>
+        <div className="page-container">
+            <button className="btn btn-secondary mt-2 ml-5" onClick={() => setCurrentPage("dashboard")}>
                 Back to Dashboard
             </button>
             <h1 className="text-center">Workouts</h1>
-            <button className="btn btn-primary btn-lg" onClick={() => setShowWorkoutForm(!showWorkoutForm)}>
-                {showWorkoutForm ? "Hide Workout Form" : "AddWorkout"}
-            </button>
+            <div className="text-center mt-3">
+                <button className="btn btn-success btn-lg" onClick={() => setShowWorkoutForm(!showWorkoutForm)}>
+                    {showWorkoutForm ? "Hide Workout Form" : "Add Workout"}
+                </button>
+            </div>
 
             {showWorkoutForm && (
-                <section  className="workout-form mt-4">
+                <section  className="entry-form mt-4">
                     <h2 className="text-center">{editingWorkoutId ? "Edit Workout" : "Create a New Workout"}</h2>
                     <form onSubmit={handleSubmit}>
                         <div>
@@ -213,17 +215,17 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                 </section>
             )}
             <section className="mt-4">
-                <h2>My Workouts</h2>
+                <h2 className="text-center mt-5">My Workouts</h2>
 
                 {workouts.length === 0 ? (
                     <p>No workouts found.</p>
                 ) : (
-                    <div className="row">
+                    <div className="row justify-content-center mt-3">
                         {workouts.map((workout) => (
                             <div key={workout._id} className="col-md-6 col-lg-4 mb-4">
                                 <div className="card h-100">
                                     <div className="card-body d-flex flex-column">
-                                        <h3 className="card-title">
+                                        <h3 className="card-title text-center">
                                             {workout.workoutName}
                                         </h3>
 
@@ -251,9 +253,9 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                                             </p>
                                         )}
 
-                                        <div className="mt-auto">
+                                        <div className="mt-auto d-flex justify-content-center gap-4">
                                             <button
-                                                className="btn btn-primary me-2 mb-2"
+                                                className="btn btn-primary btn-lg"
                                                 onClick={() =>
                                                     setSelectedWorkout(workout)
                                                 }
@@ -262,7 +264,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                                             </button>
 
                                             <button
-                                                className="btn btn-secondary me-2 mb-2"
+                                                className="btn btn-secondary btn-lg"
                                                 onClick={() =>
                                                     handleEdit(workout)
                                                 }
@@ -271,7 +273,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                                             </button>
 
                                             <button
-                                                className="btn btn-danger mb-2"
+                                                className="btn btn-danger bt-lg"
                                                 onClick={() =>
                                                     handleDelete(workout._id)
                                                 }

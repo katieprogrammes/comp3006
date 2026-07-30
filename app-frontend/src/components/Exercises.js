@@ -123,7 +123,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
 
     if (!workoutId) {
     return (
-        <div>
+        <div className="page-container">
             <h1>Exercises</h1>
             <p>No workout selected.</p>
 
@@ -142,19 +142,18 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
     return (
         <div>
             
-            <button
-                onClick={() => setSelectedWorkout(null)}
+            <button className="btn btn-secondary mt-2" onClick={() => setSelectedWorkout(null)}
             >
                 Back to Workouts
             </button>
 
-            <h1>Exercises for {workout.workoutName}</h1>
-            <p>
+            <h1 className="text-center">Exercises for {workout.workoutName}</h1>
+            <h4 className="text-center text-muted">
                 {workout.workoutType} · {workout.muscleGroup}
-            </p>
+            </h4>
 
-            <section>
-                <h2>{editingExerciseId ? "Edit Exercise" : "Create a New Exercise"}</h2>
+            <section className="entry-form mt-4">
+                <h2 className="text-center">{editingExerciseId ? "Edit Exercise" : "Create a New Exercise"}</h2>
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
@@ -265,7 +264,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
             </section>
 
             <section className="mt-4">
-                <h2>Exercise List</h2>
+                <h2 className="text-center">Exercise List</h2>
 
                 {exercises.length === 0 ? (
                     <p>No exercises found for this workout.</p>
