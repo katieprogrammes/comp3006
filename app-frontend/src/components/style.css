@@ -47,3 +47,16 @@
 .btn {
     margin: 15px;
 }
+.btn.btnpurp {
+    background-color: purple;
+    color: white;
+    border-color: purple;
+}
+
+.btn.btnpurp:hover,
+.btn.btnpurp:focus,
+.btn.btnpurp:active {
+    background-color: #5f0a87;
+    color: white;
+    border-color: #5f0a87;
+}

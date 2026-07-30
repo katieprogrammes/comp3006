@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Exercises from "./Exercises";
 
-const Workouts = ({ setCurrentPage }) => {
+const Workouts = ({ setCurrentPage, handleLogout }) => {
     const [workoutName, setWorkoutName] = useState("");
     const [workoutType, setWorkoutType] = useState("");
     const [muscleGroup, setMuscleGroup] = useState("");
@@ -20,6 +20,11 @@ const Workouts = ({ setCurrentPage }) => {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
+
+            if (response.status === 401) {
+                handleLogout();
+                return;
+            }
 
             const data = await response.json();
             setWorkouts(data);
@@ -77,7 +82,7 @@ const Workouts = ({ setCurrentPage }) => {
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this workout?");
         if (!confirmDelete) return;
-        
+
         try {
             const response = await fetch(`http://localhost:9000/workouts/${id}`, {
                 method: "DELETE",

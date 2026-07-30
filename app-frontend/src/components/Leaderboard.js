@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
-const Leaderboard = ({ setCurrentPage }) => {
+const Leaderboard = ({ setCurrentPage, handleLogout }) => {
     const socketRef = useRef(null);
 
     const [leaderboardData, setLeaderboardData] = useState([]);
@@ -19,6 +19,12 @@ const Leaderboard = ({ setCurrentPage }) => {
             if (!response.ok) {
                 throw new Error("Failed to fetch leaderboard data");
             }
+            
+            if (response.status === 401) {
+                handleLogout();
+                return;
+            }
+
             const data = await response.json();
             setLeaderboardData(data);
         } catch (error) {

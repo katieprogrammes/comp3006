@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './style.css';
 
 const Register = ({setLoggedInUser, setCurrentPage}) => {
     const [formData, setFormData] = useState({

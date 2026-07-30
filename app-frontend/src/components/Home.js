@@ -9,12 +9,12 @@ const Home = ({ setCurrentPage }) => {
                 Record workouts, track exercises and compare your weekly lifts.
             </p>
 
-            <div className="mt-4">
-                <button className="btn btn-primary me-3" onClick={() => setCurrentPage("login")}>
+            <div className="">
+                <button className="btn btnpurp" onClick={() => setCurrentPage("login")}>
                     Login
                 </button>
 
-                <button className="btn btn-primary me-3" onClick={() => setCurrentPage("register")}>
+                <button className="btn btn-primary" onClick={() => setCurrentPage("register")}>
                     Register
                 </button>
             </div>
