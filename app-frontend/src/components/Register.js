@@ -41,24 +41,38 @@ const Register = ({setLoggedInUser, setCurrentPage}) => {
 
     return (
         <div className="auth-form">
-            <h2>Register</h2>
+            <h2 className="text-center">Register</h2>
             <form onSubmit={onSubmit}>
-                <input type="text" placeholder="name" name="name" value={name} onChange={onChange} required />
-                <input type="email" placeholder="Email" name="email" value={email} onChange={onChange} required />
-                <input type="password" placeholder="Password" name="password" value={password} onChange={onChange} required />
-                <button type="submit">Register</button>
+                <input type="text" 
+                    className="form-control form-control-lg" 
+                    placeholder="Name" name="name" 
+                    value={name} 
+                    onChange={onChange} 
+                    required />
+                <input type="email" 
+                    className="form-control form-control-lg" 
+                    placeholder="Email" 
+                    name="email" 
+                    value={email} 
+                    onChange={onChange} 
+                    required />
+                <input type="password" 
+                    className="form-control form-control-lg" 
+                    placeholder="Password" name="password" 
+                    value={password} onChange={onChange} 
+                    required />
+                <button type="submit" className="btn btn-lg account-button">Register</button>
             </form>
             <p className="message">{message}</p>
-            <button type="button" onClick={() => setCurrentPage("home")}>
-                Back to Home
-            </button>
-
-            <p>
-                Already have an account?{" "}
-                <button type="button" onClick={() => setCurrentPage("login")}>
+            <p className="text-center">
+                Already have an account?
+                <button type="button" className="btn btn-lg account-button" onClick={() => setCurrentPage("login")}>
                     Login
                 </button>
             </p>
+            <button type="button" className="btn btn-lg account-button" onClick={() => setCurrentPage("home")}>
+                Back to Home
+            </button>
         </div>
     );
 };

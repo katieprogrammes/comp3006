@@ -40,36 +40,36 @@ const Login = ({ setLoggedInUser, setCurrentPage }) => {
     };
 
     return (
-        <div className="auth-form">
-            <h2>Login</h2>
+        <div className="auth-form mt-4">
+            <h2 className="text-center">Login</h2>
             <form onSubmit={onSubmit}>
                 <input type="email" 
+                        className="form-control form-control-lg"
                        placeholder="Email" 
                        name="email" 
                        value={email} 
                        onChange={onChange} 
                        required />
                 <input type="password" 
+                        className="form-control form-control-lg"
                        placeholder="Password" 
                        name="password" 
                        value={password} 
                        onChange={onChange} 
                        required />
-                <button type="submit">Login</button>
+                <button type="submit" className="btn btn-lg account-button">Login</button>
             </form>
 
             <p className="message">{message}</p>
 
-            <button type="button" onClick={() => setCurrentPage("home")}>
-                Back to Home
-            </button>
-
-            <p>
-                Don't have an account?{" "}
-                <button type="button" onClick={() => setCurrentPage("register")}>
+            <p className="text-center"> Don't have an account?</p>
+                <button type="button" className="btn btn-lg account-button" onClick={() => setCurrentPage("register")}>
                     Register
                 </button>
-            </p>
+  
+            <button type="button" className="btn btn-lg account-button" onClick={() => setCurrentPage("home")}>
+                Back to Home
+            </button>
         </div>
     );
 };
