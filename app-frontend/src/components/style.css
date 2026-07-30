@@ -1,4 +1,7 @@
-/* client/src/components/style.css */
+body {
+    background-color: #f4f6f8;
+    color: #222;
+}
 .title {
     text-align: center;
     margin-top: 20px;
@@ -58,4 +61,26 @@
     background-color: #5f0a87;
     color: white;
     border-color: #5f0a87;
+}
+.dashgroup {
+    width: 400px;
+    max-width: 90%;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+}
+.dash-button {
+    width: 100%;
+    font-weight: 700;
+    font-size: 32px;
+    margin: 20px 0;
+}
+
+.workout-form {
+    width: 600px;
+    max-width: 90%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

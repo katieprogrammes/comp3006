@@ -8,6 +8,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
     const [date, setDate] = useState("");
     const [notes, setNotes] = useState("");
     const [editingWorkoutId, setEditingWorkoutId] = useState(null);
+    const [showWorkoutForm, setShowWorkoutForm] = useState(false);
 
     const [selectedWorkout, setSelectedWorkout] = useState(null);
 
@@ -108,6 +109,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
         setMuscleGroup(workout.muscleGroup);
         setDate(workout.date.split("T")[0]);
         setNotes(workout.notes || "");
+        setShowWorkoutForm(true);
     };
 
     if (selectedWorkout) {
@@ -121,89 +123,95 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
 
     return (
         <div>
-            <button onClick={() => setCurrentPage("dashboard")}>
+            <button className="btn btn-secondary" onClick={() => setCurrentPage("dashboard")}>
                 Back to Dashboard
             </button>
-            <h1>Workouts</h1>
+            <h1 className="text-center">Workouts</h1>
+            <button className="btn btn-primary btn-lg" onClick={() => setShowWorkoutForm(!showWorkoutForm)}>
+                {showWorkoutForm ? "Hide Workout Form" : "AddWorkout"}
+            </button>
 
-            <section>
-                <h2>{editingWorkoutId ? "Edit Workout" : "Create a New Workout"}</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="workoutName" className="form-label">Workout Name:</label>
-                        <input className="form-control"
-                            type="text"
-                            id="workoutName"
-                            value={workoutName}
-                            onChange={(e) => setWorkoutName(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="workoutType" className="form-label">Workout Type:</label>
-                        <select className="form-select"
-                            id="workoutType"
-                            value={workoutType}
-                            onChange={(e) => setWorkoutType(e.target.value)}
-                            required
+            {showWorkoutForm && (
+                <section  className="workout-form mt-4">
+                    <h2 className="text-center">{editingWorkoutId ? "Edit Workout" : "Create a New Workout"}</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="workoutName" className="form-label">Workout Name:</label>
+                            <input className="form-control form-control-lg"
+                                type="text"
+                                placeholder="Workout Name"
+                                id="workoutName"
+                                value={workoutName}
+                                onChange={(e) => setWorkoutName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="workoutType" className="form-label">Workout Type:</label>
+                            <select className="form-select form-control-lg"
+                                id="workoutType"
+                                value={workoutType}
+                                onChange={(e) => setWorkoutType(e.target.value)}
+                                required
+                            >
+                                <option value="">Select a type</option>
+                                <option value="Strength">Strength</option>
+                                <option value="Cardio">Cardio</option>
+                                <option value="Flexibility">Flexibility</option>
+                                <option value="Mixed">Mixed</option>
+                            </select>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="muscleGroup" className="form-label">Muscle Group:</label>
+                            <input className="form-control form-control-lg"
+                                type="text"
+                                id="muscleGroup"
+                                value={muscleGroup}
+                                onChange={(e) => setMuscleGroup(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="date" className="form-label">Date Created:</label>
+                            <input className="form-control form-control-lg"
+                                type="date"
+                                id="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="notes" className="form-label">Notes:</label>
+                            <textarea
+                                className="form-control form-control-lg"
+                                id="notes"
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary">
+                            {editingWorkoutId ? "Update Workout" : "Create Workout"}
+                        </button>
+                        {editingWorkoutId && (
+                        <button
+                            type="button"
+                            className="btn btn-secondary ms-2"
+                            onClick={() => {
+                                setWorkoutName("");
+                                setWorkoutType("");
+                                setMuscleGroup("");
+                                setDate("");
+                                setNotes("");
+                                setEditingWorkoutId(null);
+                            }}
                         >
-                            <option value="">Select a type</option>
-                            <option value="Strength">Strength</option>
-                            <option value="Cardio">Cardio</option>
-                            <option value="Flexibility">Flexibility</option>
-                            <option value="Mixed">Mixed</option>
-                        </select>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="muscleGroup" className="form-label">Muscle Group:</label>
-                        <input className="form-control"
-                            type="text"
-                            id="muscleGroup"
-                            value={muscleGroup}
-                            onChange={(e) => setMuscleGroup(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="date" className="form-label">Date:</label>
-                        <input className="form-control"
-                            type="date"
-                            id="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="notes" className="form-label">Notes:</label>
-                        <textarea
-                            className="form-control"
-                            id="notes"
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary">
-                        {editingWorkoutId ? "Update Workout" : "Create Workout"}
-                    </button>
-                    {editingWorkoutId && (
-                    <button
-                        type="button"
-                        className="btn btn-secondary ms-2"
-                        onClick={() => {
-                            setWorkoutName("");
-                            setWorkoutType("");
-                            setMuscleGroup("");
-                            setDate("");
-                            setNotes("");
-                            setEditingWorkoutId(null);
-                        }}
-                    >
-                        Cancel Edit
-                    </button>
-                    )}
-                </form>
-            </section>
+                            Cancel Edit
+                        </button>
+                        )}
+                    </form>
+                </section>
+            )}
             <section className="mt-4">
                 <h2>My Workouts</h2>
 
@@ -230,7 +238,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                                         </p>
 
                                         <p className="card-text">
-                                            <strong>Date:</strong>{" "}
+                                            <strong>Date Created:</strong>{" "}
                                             {new Date(
                                                 workout.date
                                             ).toLocaleDateString()}

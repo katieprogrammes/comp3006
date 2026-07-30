@@ -141,7 +141,7 @@ router.get("/:id", async (req, res) => {
 // Create exercise
 router.post("/", async (req, res) => {
     try {
-        const { workoutId, exerciseName, sets, reps, weight, notes } = req.body;
+        const { workoutId, exerciseName, sets, reps, weight, date, notes } = req.body;
 
         const workout = await Workout.findOne({
             _id: workoutId,
@@ -159,6 +159,7 @@ router.post("/", async (req, res) => {
             sets,
             reps,
             weight,
+            date,
             notes
         });
 
@@ -174,7 +175,7 @@ router.post("/", async (req, res) => {
 // Update an exercise by ID
 router.put("/:id", async (req, res) => {
     try {
-        const { workoutId, exerciseName, sets, reps, weight, notes } = req.body;
+        const { workoutId, exerciseName, sets, reps, weight, date, notes } = req.body;
 
         const exercise = await Exercise.findOneAndUpdate(
             {
@@ -187,6 +188,7 @@ router.put("/:id", async (req, res) => {
                 sets,
                 reps,
                 weight,
+                date,
                 notes
             },
             { new: true }

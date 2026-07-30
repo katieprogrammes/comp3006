@@ -27,6 +27,11 @@ const exerciseSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    date: {
+    type: Date,
+    required: true,
+    default: Date.now
+    },
     notes: {
         type: String,
         required: false

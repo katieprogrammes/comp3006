@@ -1,5 +1,5 @@
 import React from "react";
-import WebSocketTest from "./WebSocketTest";
+//import WebSocketTest from "./WebSocketTest";
 
 const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
     return (
@@ -8,24 +8,24 @@ const Dashboard = ({ loggedInUser, handleLogout,setCurrentPage }) => {
 
             <h2 className="text-center">Welcome {loggedInUser?.name}</h2>
 
-            <button className="btn btn-info" onClick={() => setCurrentPage("workouts")}>
-                Workouts
-            </button>
+            <div className="dashgroup">
+                <button className="btn btn-info btn-lg dash-button" onClick={() => setCurrentPage("workouts")}>
+                    Workouts
+                </button>
 
-            <button className="btn btn-info" onClick={() => setCurrentPage("leaderboard")}>
-                Leaderboard
-            </button>
-            
+                <button className="btn btn-success btn-lg dash-button" onClick={() => setCurrentPage("leaderboard")}>
+                    Leaderboard
+                </button>
+                
 
-            <button className="btn btn-secondary" onClick={() => setCurrentPage("account")}>
-                My Account
-            </button>
-            
-            <button onClick={handleLogout} className="btn btn-danger">
-                Logout
-            </button>
-
-            <WebSocketTest />
+                <button className="btn btn-secondary btn-lg dash-button" onClick={() => setCurrentPage("account")}>
+                    My Account
+                </button>
+                
+                <button onClick={handleLogout} className="btn btn-danger btn-lg dash-button">
+                    Logout
+                </button>
+            </div>
         </div>
     );
 };

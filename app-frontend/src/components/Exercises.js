@@ -6,7 +6,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
     const [exerciseReps, setExerciseReps] = useState("");
     const [exerciseWeight, setExerciseWeight] = useState("");
     const [exerciseNotes, setExerciseNotes] = useState("");
-
+    const [exerciseDate, setExerciseDate] = useState("");
     const [editingExerciseId, setEditingExerciseId] = useState(null);
     const [exercises, setExercises] = useState([]);
 
@@ -41,6 +41,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
             sets: Number(exerciseSets),
             reps: Number(exerciseReps),
             weight: Number(exerciseWeight),
+            date: exerciseDate,
             notes: exerciseNotes,
         };
 
@@ -69,6 +70,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
             setExerciseReps("");
             setExerciseWeight("");
             setExerciseNotes("");
+            setExerciseDate("");
             setEditingExerciseId(null);
 
             fetchExercises();
@@ -84,7 +86,20 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
         setExerciseReps(exercise.reps);
         setExerciseWeight(exercise.weight);
         setExerciseNotes(exercise.notes || "");
+        setExerciseDate(exercise.date ? exercise.date.split("T")[0] : "");
         setEditingExerciseId(exercise._id);
+        window.scrollTo({top: 0, behavior: "smooth"});
+    };
+
+    const handleRepeat = (exercise) => {
+        setExerciseName(exercise.exerciseName);
+        setExerciseSets(exercise.sets);
+        setExerciseReps(exercise.reps);
+        setExerciseWeight(exercise.weight);
+        setExerciseNotes(exercise.notes || "");
+        setExerciseDate(new Date().toISOString().split("T")[0]);
+        setEditingExerciseId(null);
+        window.scrollTo({top: 0, behavior: "smooth"});
     };
 
     const handleDelete = async (id) => {
@@ -199,6 +214,21 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                     </div>
 
                     <div className="mb-3">
+                        <label htmlFor="exerciseDate" className="form-label">
+                            Date:
+                        </label>
+
+                        <input
+                            type="date"
+                            id="exerciseDate"
+                            className="form-control"
+                            value={exerciseDate}
+                            onChange={(e) => setExerciseDate(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-3">
                         <label htmlFor="exerciseNotes" className="form-label">
                             Notes:
                         </label>
@@ -224,6 +254,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                                 setExerciseReps("");
                                 setExerciseWeight("");
                                 setExerciseNotes("");
+                                setExerciseDate("");
                                 setEditingExerciseId(null);
                             }}
                         >
@@ -264,6 +295,13 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                                             {exercise.weight} kg
                                         </p>
 
+                                        <p className="card-text">
+                                            <strong>Date:</strong>{" "}
+                                            {exercise.date
+                                                ? new Date(exercise.date).toLocaleDateString()
+                                                : "No date recorded"}
+                                        </p>
+
                                         {exercise.notes && (
                                             <p className="card-text">
                                                 <strong>Notes:</strong>{" "}
@@ -272,6 +310,12 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                                         )}
 
                                         <div className="mt-auto">
+                                             <button
+                                                className="btn btn-info me-2 mb-2"
+                                                onClick={() => handleRepeat(exercise)}
+                                            >
+                                                Repeat
+                                            </button>
                                             <button
                                                 className="btn btn-secondary me-2 mb-2"
                                                 onClick={() =>
