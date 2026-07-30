@@ -233,39 +233,68 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                 </form>
             </section>
 
-            <section>
+            <section className="mt-4">
                 <h2>Exercise List</h2>
 
                 {exercises.length === 0 ? (
                     <p>No exercises found for this workout.</p>
                 ) : (
-                    exercises.map((exercise) => (
-                        <div key={exercise._id} className="card mt-3">
-                            <div className="card-body">
-                                <h3>{exercise.exerciseName}</h3>
-                                <p>Sets: {exercise.sets}</p>
-                                <p>Reps: {exercise.reps}</p>
-                                <p>Weight: {exercise.weight}</p>
-                                <p>Notes: {exercise.notes}</p>
+                    <div className="row">
+                        {exercises.map((exercise) => (
+                            <div
+                                key={exercise._id}
+                                className="col-md-6 col-lg-4 mb-4"
+                            >
+                                <div className="card h-100">
+                                    <div className="card-body d-flex flex-column">
+                                        <h3 className="card-title">
+                                            {exercise.exerciseName}
+                                        </h3>
 
-                                <div className="btn-group">
-                                    <button
-                                        className="btn btn-secondary"
-                                        onClick={() => handleEdit(exercise)}
-                                    >
-                                        Edit Exercise
-                                    </button>
+                                        <p className="card-text">
+                                            <strong>Sets:</strong> {exercise.sets}
+                                        </p>
 
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={() => handleDelete(exercise._id)}
-                                    >
-                                        Delete Exercise
-                                    </button>
+                                        <p className="card-text">
+                                            <strong>Reps:</strong> {exercise.reps}
+                                        </p>
+
+                                        <p className="card-text">
+                                            <strong>Weight:</strong>{" "}
+                                            {exercise.weight} kg
+                                        </p>
+
+                                        {exercise.notes && (
+                                            <p className="card-text">
+                                                <strong>Notes:</strong>{" "}
+                                                {exercise.notes}
+                                            </p>
+                                        )}
+
+                                        <div className="mt-auto">
+                                            <button
+                                                className="btn btn-secondary me-2 mb-2"
+                                                onClick={() =>
+                                                    handleEdit(exercise)
+                                                }
+                                            >
+                                                Edit
+                                            </button>
+
+                                            <button
+                                                className="btn btn-danger mb-2"
+                                                onClick={() =>
+                                                    handleDelete(exercise._id)
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
+                        ))}
+                    </div>
                 )}
             </section>
         </div>
