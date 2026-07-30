@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './style.css'; // Import CSS for styling
+import './style.css';
 
-const Login = ({ setLoggedInUser }) => {
+const Login = ({ setLoggedInUser, setCurrentPage }) => {
     const [formData, setFormData] = useState({
-        name: '',
         email: '',
         password: ''
     });
@@ -12,10 +11,9 @@ const Login = ({ setLoggedInUser }) => {
 
     const { email, password } = formData;
 
-    const onChange = e => setFormData({ ...formData, 
-                                      [e.target.name]: e.target.value });
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = async e => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         try {
             const res = 
@@ -25,14 +23,18 @@ const Login = ({ setLoggedInUser }) => {
                 password
             });
             localStorage.setItem('token', res.data.token);
+
             console.log("Setting logged in user to:", email);
+
             localStorage.setItem("user", JSON.stringify(res.data.user));
-            setLoggedInUser(email);
+
+            setLoggedInUser(res.data.user);
             
-            // Set success message
             setMessage('Logged in successfully');
+
+            setCurrentPage("dashboard");
         } catch (err) {
-            console.error(err.response.data);
+            console.error(err.response?.data || err.message);
             // Set error message
             setMessage('Failed to login - wrong credentials');         
         }
@@ -56,7 +58,19 @@ const Login = ({ setLoggedInUser }) => {
                        required />
                 <button type="submit">Login</button>
             </form>
+
             <p className="message">{message}</p>
+
+            <button type="button" onClick={() => setCurrentPage("home")}>
+                Back to Home
+            </button>
+
+            <p>
+                Don't have an account?{" "}
+                <button type="button" onClick={() => setCurrentPage("register")}>
+                    Register
+                </button>
+            </p>
         </div>
     );
 };

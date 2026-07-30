@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './style.css'; // Import CSS for styling
+import './style.css';
 
-const Register = () => {
+const Register = ({setLoggedInUser, setCurrentPage}) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: ''
     });
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
 
     const { name, email, password } = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-    const onSubmit = async e => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const res = await axios.post('http://localhost:9000/auth/register', {
+            const res = await axios.post('http://localhost:9000/auth/register', 
+            {
                 name,
                 email,
                 password
             });
-            setMessage('Registered successfully'); // Set success message
+
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+
+            setLoggedInUser(res.data.user);
+            setMessage('Registered successfully');
+
+            setCurrentPage("dashboard");
         } catch (err) {
-            console.error(err.response.data);
-            setMessage('Failed to register, User already exists'); // Set error message
+            console.error(err.response.data || err.message);
+            setMessage('Failed to register, User already exists');
         }
     };
 
@@ -39,6 +50,16 @@ const Register = () => {
                 <button type="submit">Register</button>
             </form>
             <p className="message">{message}</p>
+            <button type="button" onClick={() => setCurrentPage("home")}>
+                Back to Home
+            </button>
+
+            <p>
+                Already have an account?{" "}
+                <button type="button" onClick={() => setCurrentPage("login")}>
+                    Login
+                </button>
+            </p>
         </div>
     );
 };

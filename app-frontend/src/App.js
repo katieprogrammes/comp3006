@@ -1,57 +1,75 @@
 import React, { useState } from 'react';
+import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Workouts from './components/Workouts';
 import Leaderboard from './components/Leaderboard';
 
-const App = () => {
-    const [loggedInUser, setLoggedInUser] = useState(null);
-    const [currentPage, setCurrentPage] = useState("dashboard");
+function App() {
+    const [loggedInUser, setLoggedInUser] = useState(() => {
+        const savedUser = localStorage.getItem('user');
+
+        try {
+            return savedUser ? JSON.parse(savedUser) : null;
+        } catch {
+            localStorage.removeItem('user');
+            return null;
+        }
+    });
+
+    const [currentPage, setCurrentPage] = useState(() => {
+        const token = localStorage.getItem("token");
+        const savedUser = localStorage.getItem("user");
+
+        return token && savedUser ? "dashboard" : "home";
+    });
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
         setLoggedInUser(null);
-        setCurrentPage("dashboard");
+        setCurrentPage("home");
     };
 
-    const renderPage = () => {
-        if (currentPage === "workouts") {
+    if (!loggedInUser) {
+        if (currentPage === "login") {
             return (
-                <Workouts 
-                    setCurrentPage={setCurrentPage}
-                />
-            );
-        }
-        if (currentPage === "leaderboard") {
-            return (
-                <Leaderboard
+                <Login
+                    setLoggedInUser={setLoggedInUser}
                     setCurrentPage={setCurrentPage}
                 />
             );
         }
 
-        return (
-            <Dashboard 
-                loggedInUser={loggedInUser}
-                handleLogout={handleLogout}
-                setCurrentPage={setCurrentPage}
-            />
-        );
-    };
+         if (currentPage === "register") {
+            return (
+                <Register
+                    setLoggedInUser={setLoggedInUser}
+                    setCurrentPage={setCurrentPage}
+                />
+            );
+        }
+
+        return <Home setCurrentPage={setCurrentPage} />;
+    }
+
+    if (currentPage === "workouts") {
+        return <Workouts setCurrentPage={setCurrentPage} />;
+    }
+
+    if (currentPage === "leaderboard") {
+        return <Leaderboard setCurrentPage={setCurrentPage} />;
+    }
 
     return (
-        <div className="App">
-            {loggedInUser ? (
-                renderPage()
-            ) : (
-                <div>
-                    <Register />
-                    <Login setLoggedInUser={setLoggedInUser} />
-                </div>
-            )}
-        </div>
+        <Dashboard
+            loggedInUser={loggedInUser}
+            setCurrentPage={setCurrentPage}
+            handleLogout={handleLogout}
+        />
     );
-};
+}
 
 export default App;
