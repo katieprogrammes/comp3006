@@ -19,7 +19,7 @@ const Leaderboard = ({ setCurrentPage, handleLogout }) => {
             if (!response.ok) {
                 throw new Error("Failed to fetch leaderboard data");
             }
-            
+
             if (response.status === 401) {
                 handleLogout();
                 return;
@@ -64,8 +64,8 @@ const Leaderboard = ({ setCurrentPage, handleLogout }) => {
             <button className="btn btn-secondary mb-3" onClick={() => setCurrentPage("dashboard")}>
                 Back to Dashboard
             </button>
-            <h1>Weekly Heaviest Lift Leaderboard</h1>
-            <p>
+            <h1 className="text-center">Weekly Heaviest Lift Leaderboard</h1>
+            <p className="text-center mt-3">
                 This leaderboard shows the heaviest weight lifted by each user this week.
             </p>
             {loading && <p>Loading leaderboard...</p>}

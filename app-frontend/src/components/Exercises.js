@@ -8,6 +8,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
     const [exerciseNotes, setExerciseNotes] = useState("");
     const [exerciseDate, setExerciseDate] = useState("");
     const [editingExerciseId, setEditingExerciseId] = useState(null);
+    const [showExerciseForm, setShowExerciseForm] = useState(false);
     const [exercises, setExercises] = useState([]);
 
     const workoutId = workout?._id;
@@ -72,6 +73,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
             setExerciseNotes("");
             setExerciseDate("");
             setEditingExerciseId(null);
+            setShowExerciseForm(false);
 
             fetchExercises();
 
@@ -88,6 +90,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
         setExerciseNotes(exercise.notes || "");
         setExerciseDate(exercise.date ? exercise.date.split("T")[0] : "");
         setEditingExerciseId(exercise._id);
+        setShowExerciseForm(true);
         window.scrollTo({top: 0, behavior: "smooth"});
     };
 
@@ -99,6 +102,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
         setExerciseNotes(exercise.notes || "");
         setExerciseDate(new Date().toISOString().split("T")[0]);
         setEditingExerciseId(null);
+        setShowExerciseForm(true);
         window.scrollTo({top: 0, behavior: "smooth"});
     };
 
@@ -140,7 +144,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
 }
 
     return (
-        <div>
+        <div className="page-container">
             
             <button className="btn btn-secondary mt-2" onClick={() => setSelectedWorkout(null)}
             >
@@ -152,116 +156,131 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                 {workout.workoutType} · {workout.muscleGroup}
             </h4>
 
-            <section className="entry-form mt-4">
-                <h2 className="text-center">{editingExerciseId ? "Edit Exercise" : "Create a New Exercise"}</h2>
+            <div className="text-center mt-3">
+                <button
+                    className="btn btn-success btn-lg"
+                    onClick={() =>
+                        setShowExerciseForm(!showExerciseForm)
+                    }
+                >
+                    {showExerciseForm
+                        ? "Hide Exercise Form"
+                        : "Add Exercise"}
+                </button>
+            </div>
+            {showExerciseForm && (
+                <section className="entry-form mt-4">
+                    <h2 className="text-center">{editingExerciseId ? "Edit Exercise" : "Create a New Exercise"}</h2>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="exerciseName" className="form-label">
-                            Exercise Name:
-                        </label>
-                        <input
-                            type="text"
-                            id="exerciseName"
-                            className="form-control"
-                            value={exerciseName}
-                            onChange={(e) => setExerciseName(e.target.value)}
-                            required
-                        />
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="exerciseName" className="form-label">
+                                Exercise Name:
+                            </label>
+                            <input
+                                type="text"
+                                id="exerciseName"
+                                className="form-control"
+                                value={exerciseName}
+                                onChange={(e) => setExerciseName(e.target.value)}
+                                required
+                            />
+                        </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="exerciseSets" className="form-label">
-                            Sets:
-                        </label>
-                        <input
-                            type="number"
-                            id="exerciseSets"
-                            className="form-control"
-                            value={exerciseSets}
-                            onChange={(e) => setExerciseSets(e.target.value)}
-                            required
-                        />
-                    </div>
+                        <div className="mb-3">
+                            <label htmlFor="exerciseSets" className="form-label">
+                                Sets:
+                            </label>
+                            <input
+                                type="number"
+                                id="exerciseSets"
+                                className="form-control"
+                                value={exerciseSets}
+                                onChange={(e) => setExerciseSets(e.target.value)}
+                                required
+                            />
+                        </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="exerciseReps" className="form-label">
-                            Reps:
-                        </label>
-                        <input
-                            type="number"
-                            id="exerciseReps"
-                            className="form-control"
-                            value={exerciseReps}
-                            onChange={(e) => setExerciseReps(e.target.value)}
-                            required
-                        />
-                    </div>
+                        <div className="mb-3">
+                            <label htmlFor="exerciseReps" className="form-label">
+                                Reps:
+                            </label>
+                            <input
+                                type="number"
+                                id="exerciseReps"
+                                className="form-control"
+                                value={exerciseReps}
+                                onChange={(e) => setExerciseReps(e.target.value)}
+                                required
+                            />
+                        </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="exerciseWeight" className="form-label">
-                            Weight:
-                        </label>
-                        <input
-                            type="number"
-                            id="exerciseWeight"
-                            className="form-control"
-                            value={exerciseWeight}
-                            onChange={(e) => setExerciseWeight(e.target.value)}
-                            required
-                        />
-                    </div>
+                        <div className="mb-3">
+                            <label htmlFor="exerciseWeight" className="form-label">
+                                Weight:
+                            </label>
+                            <input
+                                type="number"
+                                id="exerciseWeight"
+                                className="form-control"
+                                value={exerciseWeight}
+                                onChange={(e) => setExerciseWeight(e.target.value)}
+                                required
+                            />
+                        </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="exerciseDate" className="form-label">
-                            Date:
-                        </label>
+                        <div className="mb-3">
+                            <label htmlFor="exerciseDate" className="form-label">
+                                Date:
+                            </label>
 
-                        <input
-                            type="date"
-                            id="exerciseDate"
-                            className="form-control"
-                            value={exerciseDate}
-                            onChange={(e) => setExerciseDate(e.target.value)}
-                            required
-                        />
-                    </div>
+                            <input
+                                type="date"
+                                id="exerciseDate"
+                                className="form-control"
+                                value={exerciseDate}
+                                onChange={(e) => setExerciseDate(e.target.value)}
+                                required
+                            />
+                        </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="exerciseNotes" className="form-label">
-                            Notes:
-                        </label>
-                        <textarea
-                            id="exerciseNotes"
-                            className="form-control"
-                            value={exerciseNotes}
-                            onChange={(e) => setExerciseNotes(e.target.value)}
-                        />
-                    </div>
+                        <div className="mb-3">
+                            <label htmlFor="exerciseNotes" className="form-label">
+                                Notes:
+                            </label>
+                            <textarea
+                                id="exerciseNotes"
+                                className="form-control"
+                                value={exerciseNotes}
+                                onChange={(e) => setExerciseNotes(e.target.value)}
+                            />
+                        </div>
 
-                    <button type="submit" className="btn btn-primary">
-                        {editingExerciseId ? "Update Exercise" : "Create Exercise"}
-                    </button>
-
-                    {editingExerciseId && (
-                        <button
-                            type="button"
-                            className="btn btn-secondary ms-2"
-                            onClick={() => {
-                                setExerciseName("");
-                                setExerciseSets("");
-                                setExerciseReps("");
-                                setExerciseWeight("");
-                                setExerciseNotes("");
-                                setExerciseDate("");
-                                setEditingExerciseId(null);
-                            }}
-                        >
-                            Cancel Edit
+                        <button type="submit" className="btn btn-primary">
+                            {editingExerciseId ? "Update Exercise" : "Create Exercise"}
                         </button>
-                    )}
-                </form>
-            </section>
+
+                        {editingExerciseId && (
+                            <button
+                                type="button"
+                                className="btn btn-secondary ms-2"
+                                onClick={() => {
+                                    setExerciseName("");
+                                    setExerciseSets("");
+                                    setExerciseReps("");
+                                    setExerciseWeight("");
+                                    setExerciseNotes("");
+                                    setExerciseDate("");
+                                    setEditingExerciseId(null);
+                                    setShowExerciseForm(false);
+                                }}
+                            >
+                                Cancel Edit
+                            </button>
+                        )}
+                    </form>
+                </section>
+            )}
 
             <section className="mt-4">
                 <h2 className="text-center">Exercise List</h2>
@@ -269,7 +288,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                 {exercises.length === 0 ? (
                     <p>No exercises found for this workout.</p>
                 ) : (
-                    <div className="row">
+                    <div className="row justify-content-center mt-3">
                         {exercises.map((exercise) => (
                             <div
                                 key={exercise._id}
@@ -277,7 +296,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             >
                                 <div className="card h-100">
                                     <div className="card-body d-flex flex-column">
-                                        <h3 className="card-title">
+                                        <h3 className="card-title text-center">
                                             {exercise.exerciseName}
                                         </h3>
 

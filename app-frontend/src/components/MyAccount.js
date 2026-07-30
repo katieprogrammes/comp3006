@@ -11,6 +11,7 @@ const MyAccount = ({
     const [exerciseCount, setExerciseCount] = useState(0);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
+    const [showAccountForm, setShowAccountForm] = useState(false);
 
     const fetchAccount = async () => {
         try {
@@ -80,6 +81,8 @@ const MyAccount = ({
             setLoggedInUser(data);
 
             setMessage("Account updated successfully.");
+            setShowAccountForm(false);
+            
         } catch (error) {
             console.error("Error updating account:", error);
             setMessage(error.message);
@@ -133,7 +136,7 @@ const MyAccount = ({
                 Back to Dashboard
             </button>
 
-            <h1>My Account</h1>
+            <h1 className="text-center">My Account</h1>
 
             {message && (
                 <div className="alert alert-info">
@@ -145,8 +148,17 @@ const MyAccount = ({
                 <div className="col-lg-8 mb-4">
                     <div className="card h-100">
                         <div className="card-body">
-                            <h2 className="card-title">Account Details</h2>
-
+                            <h2 className="card-title text-center">Account Details</h2>
+                            <div className="text-center mb-3">
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => setShowAccountForm(!showAccountForm)}
+                            >
+                                {showAccountForm ? "Hide Edit Form" : "Edit Account"}
+                            </button>
+                        </div>
+                        {showAccountForm && (
                             <form onSubmit={handleUpdate}>
                                 <div className="mb-3">
                                     <label htmlFor="accountName" className="form-label">Name</label>
@@ -160,6 +172,7 @@ const MyAccount = ({
 
                                 <button type="submit" className="btn btn-primary">Save Changes</button>
                             </form>
+                        )}
                         </div>
                     </div>
                 </div>
