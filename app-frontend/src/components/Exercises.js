@@ -327,15 +327,15 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                                             </p>
                                         )}
 
-                                        <div className="mt-auto">
+                                        <div className="mt-auto d-flex justify-content-center gap-4">
                                              <button
-                                                className="btn btn-info me-2 mb-2"
+                                                className="btn btn-lg btn-info me-2 mb-2"
                                                 onClick={() => handleRepeat(exercise)}
                                             >
                                                 Repeat
                                             </button>
                                             <button
-                                                className="btn btn-secondary me-2 mb-2"
+                                                className="btn btn-lg btn-secondary me-2 mb-2"
                                                 onClick={() =>
                                                     handleEdit(exercise)
                                                 }
@@ -344,7 +344,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                                             </button>
 
                                             <button
-                                                className="btn btn-danger mb-2"
+                                                className="btn btn-lg btn-danger mb-2"
                                                 onClick={() =>
                                                     handleDelete(exercise._id)
                                                 }
