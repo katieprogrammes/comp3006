@@ -30,7 +30,8 @@ body {
     border: 1px solid #ccc;
 }
 
-.auth-form button {
+.auth-form button,
+.entry-form button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;

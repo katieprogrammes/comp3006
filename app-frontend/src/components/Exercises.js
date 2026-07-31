@@ -13,6 +13,23 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
 
     const workoutId = workout?._id;
 
+    const groupedExercises = exercises.reduce((groups, exercise) => {
+        const name = exercise.exerciseName.trim();
+
+        if (!groups[name]) {
+            groups[name] = [];
+        }
+
+        groups[name].push(exercise);
+
+        return groups;
+    }, {});
+
+    const exerciseNames = Object.keys(groupedExercises).sort(
+        (firstName, secondName) =>
+            firstName.localeCompare(secondName)
+    );
+
     const fetchExercises = async () => {
         if (!workoutId) return;
         try {
@@ -153,7 +170,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
 
             <h1 className="text-center">Exercises for {workout.workoutName}</h1>
             <h4 className="text-center text-muted">
-                {workout.workoutType} · {workout.muscleGroup}
+                {workout.muscleGroup}
             </h4>
 
             <div className="text-center mt-3">
@@ -180,7 +197,8 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             <input
                                 type="text"
                                 id="exerciseName"
-                                className="form-control"
+                                className="form-control form-control-lg"
+                                placeholder="Exercise Name"
                                 value={exerciseName}
                                 onChange={(e) => setExerciseName(e.target.value)}
                                 required
@@ -194,7 +212,8 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             <input
                                 type="number"
                                 id="exerciseSets"
-                                className="form-control"
+                                className="form-control form-control-lg"
+                                placeholder="Sets"
                                 value={exerciseSets}
                                 onChange={(e) => setExerciseSets(e.target.value)}
                                 required
@@ -208,7 +227,8 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             <input
                                 type="number"
                                 id="exerciseReps"
-                                className="form-control"
+                                className="form-control form-control-lg"
+                                placeholder="Reps"
                                 value={exerciseReps}
                                 onChange={(e) => setExerciseReps(e.target.value)}
                                 required
@@ -217,12 +237,13 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
 
                         <div className="mb-3">
                             <label htmlFor="exerciseWeight" className="form-label">
-                                Weight:
+                                Weight (kg):
                             </label>
                             <input
                                 type="number"
                                 id="exerciseWeight"
-                                className="form-control"
+                                className="form-control form-control-lg"
+                                placeholder="Weight"
                                 value={exerciseWeight}
                                 onChange={(e) => setExerciseWeight(e.target.value)}
                                 required
@@ -237,7 +258,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             <input
                                 type="date"
                                 id="exerciseDate"
-                                className="form-control"
+                                className="form-control form-control-lg"
                                 value={exerciseDate}
                                 onChange={(e) => setExerciseDate(e.target.value)}
                                 required
@@ -250,13 +271,14 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             </label>
                             <textarea
                                 id="exerciseNotes"
-                                className="form-control"
+                                className="form-control form-control-lg"
+                                placeholder="Notes"
                                 value={exerciseNotes}
                                 onChange={(e) => setExerciseNotes(e.target.value)}
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-success">
                             {editingExerciseId ? "Update Exercise" : "Create Exercise"}
                         </button>
 
@@ -283,78 +305,97 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
             )}
 
             <section className="mt-4">
-                <h2 className="text-center">Exercise List</h2>
+                <h2 className="text-center mt-5">Exercise List</h2>
 
                 {exercises.length === 0 ? (
                     <p>No exercises found for this workout.</p>
                 ) : (
-                    <div className="row justify-content-center mt-3">
-                        {exercises.map((exercise) => (
-                            <div
-                                key={exercise._id}
-                                className="col-md-6 col-lg-4 mb-4"
-                            >
-                                <div className="card h-100">
-                                    <div className="card-body d-flex flex-column">
-                                        <h3 className="card-title text-center">
-                                            {exercise.exerciseName}
-                                        </h3>
+                    <div className="mt-3">
+                        {exerciseNames.map((exerciseName) => (
+                            <section key={exerciseName} className="mb-5">
+                                <h3 className="text-center mb-3 text-decoration-underline">
+                                    {exerciseName}
+                                </h3>
 
-                                        <p className="card-text">
-                                            <strong>Sets:</strong> {exercise.sets}
-                                        </p>
-
-                                        <p className="card-text">
-                                            <strong>Reps:</strong> {exercise.reps}
-                                        </p>
-
-                                        <p className="card-text">
-                                            <strong>Weight:</strong>{" "}
-                                            {exercise.weight} kg
-                                        </p>
-
-                                        <p className="card-text">
-                                            <strong>Date:</strong>{" "}
-                                            {exercise.date
-                                                ? new Date(exercise.date).toLocaleDateString()
-                                                : "No date recorded"}
-                                        </p>
-
-                                        {exercise.notes && (
-                                            <p className="card-text">
-                                                <strong>Notes:</strong>{" "}
-                                                {exercise.notes}
-                                            </p>
-                                        )}
-
-                                        <div className="mt-auto d-flex justify-content-center gap-4">
-                                             <button
-                                                className="btn btn-lg btn-info me-2 mb-2"
-                                                onClick={() => handleRepeat(exercise)}
+                                <div className="row justify-content-center ">
+                                    {[...groupedExercises[exerciseName]]
+                                        .sort(
+                                            (firstExercise, secondExercise) =>
+                                                new Date(secondExercise.date) -
+                                                new Date(firstExercise.date)
+                                        )
+                                        .map((exercise) => (
+                                            <div
+                                                key={exercise._id}
+                                                className="col-md-5 col-lg-3 mb-4"
                                             >
-                                                Repeat
-                                            </button>
-                                            <button
-                                                className="btn btn-lg btn-secondary me-2 mb-2"
-                                                onClick={() =>
-                                                    handleEdit(exercise)
-                                                }
-                                            >
-                                                Edit
-                                            </button>
+                                                <div className="card h-100">
+                                                    <div className="card-body d-flex flex-column">
+                                                        <p className="card-text">
+                                                            <strong>Sets:</strong>{" "}
+                                                            {exercise.sets}
+                                                        </p>
 
-                                            <button
-                                                className="btn btn-lg btn-danger mb-2"
-                                                onClick={() =>
-                                                    handleDelete(exercise._id)
-                                                }
-                                            >
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
+                                                        <p className="card-text">
+                                                            <strong>Reps:</strong>{" "}
+                                                            {exercise.reps}
+                                                        </p>
+
+                                                        <p className="card-text">
+                                                            <strong>Weight:</strong>{" "}
+                                                            {exercise.weight} kg
+                                                        </p>
+
+                                                        <p className="card-text">
+                                                            <strong>Date:</strong>{" "}
+                                                            {exercise.date
+                                                                ? new Date(
+                                                                    exercise.date
+                                                                ).toLocaleDateString()
+                                                                : "No date recorded"}
+                                                        </p>
+
+                                                        {exercise.notes && (
+                                                            <p className="card-text">
+                                                                <strong>Notes:</strong>{" "}
+                                                                {exercise.notes}
+                                                            </p>
+                                                        )}
+
+                                                        <div className="mt-auto d-flex justify-content-center flex-wrap gap-2">
+                                                            <button
+                                                                className="btn btn-lg btn-info"
+                                                                onClick={() =>
+                                                                    handleRepeat(exercise)
+                                                                }
+                                                            >
+                                                                Repeat
+                                                            </button>
+
+                                                            <button
+                                                                className="btn btn-lg btn-secondary"
+                                                                onClick={() =>
+                                                                    handleEdit(exercise)
+                                                                }
+                                                            >
+                                                                Edit
+                                                            </button>
+
+                                                            <button
+                                                                className="btn btn-lg btn-danger"
+                                                                onClick={() =>
+                                                                    handleDelete(exercise._id)
+                                                                }
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                 </div>
-                            </div>
+                            </section>
                         ))}
                     </div>
                 )}

@@ -195,7 +195,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                         <div className="text-center mt-3">
                             <button
                                 type="submit"
-                                className="btn btn-primary btn-lg"
+                                className="btn btn-success btn-lg"
                             >
                                 {editingWorkoutId ? "Update Workout" : "Create Workout"}
                             </button>

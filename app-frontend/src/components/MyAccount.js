@@ -159,18 +159,18 @@ const MyAccount = ({
                             </button>
                         </div>
                         {showAccountForm && (
-                            <form onSubmit={handleUpdate}>
+                            <form onSubmit={handleUpdate} className="entry-form">
                                 <div className="mb-3">
                                     <label htmlFor="accountName" className="form-label">Name</label>
-                                    <input id="accountName" type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} required />
+                                    <input id="accountName" type="text" className="form-control form-control-lg" value={name} onChange={(e) => setName(e.target.value)} required />
                                 </div>
 
                                 <div className="mb-3">
                                     <label htmlFor="accountEmail" className="form-label">Email</label>
-                                    <input id="accountEmail" type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                                    <input id="accountEmail" type="email" className="form-control form-control-lg" value={email} onChange={(e) => setEmail(e.target.value)} required />
                                 </div>
 
-                                <button type="submit" className="btn btn-primary">Save Changes</button>
+                                <button type="submit" className="btn btn-success btn-lg">Save Changes</button>
                             </form>
                         )}
                         </div>
