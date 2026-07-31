@@ -64,10 +64,10 @@ const Leaderboard = ({ setCurrentPage, handleLogout }) => {
             <button className="btn btn-secondary mb-3" onClick={() => setCurrentPage("dashboard")}>
                 Back to Dashboard
             </button>
-            <h1 className="text-center">Weekly Heaviest Lift Leaderboard</h1>
-            <p className="text-center mt-3 lead">
+            <h1 className="text-center title">Weekly Heaviest Lift Leaderboard</h1>
+            <h4 className="text-center my-5">
                 This leaderboard shows the heaviest weight lifted by each user this week.
-            </p>
+            </h4>
             {loading && <p>Loading leaderboard...</p>}
 
             {errorMessage && (
@@ -80,7 +80,7 @@ const Leaderboard = ({ setCurrentPage, handleLogout }) => {
             )}
 
         {!loading && leaderboardData.length > 0 && (
-            <table className="table table-striped">
+            <table className="table table-dark table-striped">
                 <thead>
                     <tr>
                         <th>Rank</th>

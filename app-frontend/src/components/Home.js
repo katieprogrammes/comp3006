@@ -2,7 +2,7 @@ import React from "react";
 
 const Home = ({ setCurrentPage }) => {
     return (
-        <div className="container mt-5 text-center">
+        <div className="container mt-5 text-center title">
             <h1>Gym Workout Record System</h1>
 
             <h2 className="mt-4">

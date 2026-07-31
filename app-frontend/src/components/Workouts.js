@@ -192,9 +192,14 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                                 onChange={(e) => setNotes(e.target.value)}
                             />
                         </div>
-                        <button type="submit" className="btn btn-primary">
-                            {editingWorkoutId ? "Update Workout" : "Create Workout"}
-                        </button>
+                        <div className="text-center mt-3">
+                            <button
+                                type="submit"
+                                className="btn btn-primary btn-lg"
+                            >
+                                {editingWorkoutId ? "Update Workout" : "Create Workout"}
+                            </button>
+                        </div>
                         {editingWorkoutId && (
                         <button
                             type="button"

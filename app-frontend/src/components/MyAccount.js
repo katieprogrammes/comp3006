@@ -136,7 +136,7 @@ const MyAccount = ({
                 Back to Dashboard
             </button>
 
-            <h1 className="text-center">My Account</h1>
+            <h1 className="text-center title">My Account</h1>
 
             {message && (
                 <div className="alert alert-info">
@@ -144,7 +144,7 @@ const MyAccount = ({
                 </div>
             )}
 
-            <div className="row">
+            <div className="row mt-5">
                 <div className="col-lg-8 mb-4">
                     <div className="card h-100">
                         <div className="card-body">
@@ -152,7 +152,7 @@ const MyAccount = ({
                             <div className="text-center mb-3">
                             <button
                                 type="button"
-                                className="btn btn-primary"
+                                className="btn btn-primary btn-lg mt-4"
                                 onClick={() => setShowAccountForm(!showAccountForm)}
                             >
                                 {showAccountForm ? "Hide Edit Form" : "Edit Account"}
@@ -195,14 +195,14 @@ const MyAccount = ({
             </div>
 
             <div className="card border-danger mb-4">
-                <div className="card-body">
+                <div className="card-body text-center">
                     <h2 className="card-title text-danger">
                         Delete Account
                     </h2>
-                    <p>
+                    <h5 className="my-4">
                         Deleting your account permanently removes your workouts and exercises.
-                    </p>
-                    <button className="btn btn-danger" onClick={handleDelete}>Permanently Delete Account</button>
+                    </h5>
+                    <button className="btn btn-danger btn-lg" onClick={handleDelete}>Permanently Delete Account</button>
                 </div>
             </div>
         </div>
