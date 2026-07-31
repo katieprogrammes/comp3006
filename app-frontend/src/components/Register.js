@@ -13,6 +13,8 @@ const Register = ({setLoggedInUser, setCurrentPage}) => {
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+
+        setMessage("");
     };
 
     const onSubmit = async (e) => {
@@ -33,12 +35,15 @@ const Register = ({setLoggedInUser, setCurrentPage}) => {
             setMessage('Registered successfully');
 
             setCurrentPage("dashboard");
-        } catch (err) {
-            console.error(err.response.data || err.message);
-            setMessage('Failed to register, User already exists');
-        }
-    };
+            } catch (err) {
+                console.error(err.response?.data || err.message);
 
+                setMessage(
+                    err.response?.data?.error ||
+                    "Failed to register"
+                );
+            }
+    };
     return (
         <div className="auth-form">
             <h2 className="text-center">Register</h2>
@@ -58,9 +63,16 @@ const Register = ({setLoggedInUser, setCurrentPage}) => {
                     required />
                 <input type="password" 
                     className="form-control form-control-lg" 
-                    placeholder="Password" name="password" 
-                    value={password} onChange={onChange} 
-                    required />
+                    placeholder="Password" 
+                    name="password" 
+                    value={password} 
+                    onChange={onChange} 
+                    required
+                    minLength={8} />
+                    
+                    <p className="form-text text-muted">
+                        Password must contain at least 8 characters.
+                    </p>
                 <button type="submit" className="btn btn-lg account-button">Register</button>
             </form>
             <p className="message">{message}</p>

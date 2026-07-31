@@ -65,7 +65,7 @@ const Leaderboard = ({ setCurrentPage, handleLogout }) => {
                 Back to Dashboard
             </button>
             <h1 className="text-center">Weekly Heaviest Lift Leaderboard</h1>
-            <p className="text-center mt-3">
+            <p className="text-center mt-3 lead">
                 This leaderboard shows the heaviest weight lifted by each user this week.
             </p>
             {loading && <p>Loading leaderboard...</p>}
