@@ -80,7 +80,7 @@ const Leaderboard = ({ setCurrentPage, handleLogout }) => {
             )}
 
         {!loading && leaderboardData.length > 0 && (
-            <table className="table table-dark table-striped">
+            <table className="table table-info table-striped">
                 <thead>
                     <tr>
                         <th>Rank</th>
