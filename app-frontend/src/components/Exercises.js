@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 const Exercises = ({ workout, setSelectedWorkout }) => {
     const [exerciseName, setExerciseName] = useState("");
@@ -30,7 +30,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
             firstName.localeCompare(secondName)
     );
 
-    const fetchExercises = async () => {
+    const fetchExercises = useCallback(async () => {
         if (!workoutId) return;
         try {
             const response = await fetch(`http://localhost:9000/exercises/workout/${workoutId}`, {
@@ -44,11 +44,11 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
         } catch (error) {
             console.error("Error fetching exercises:", error);
         }
-    };
+    }, [workoutId]);
 
     useEffect(() => {
         fetchExercises();
-    }, [workoutId]);
+    }, [fetchExercises]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

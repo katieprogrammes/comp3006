@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Exercises from "./Exercises";
 
 const Workouts = ({ setCurrentPage, handleLogout }) => {
@@ -14,7 +14,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
 
     const [workouts, setWorkouts] = useState([]);
 
-     const fetchWorkouts = async () => {
+     const fetchWorkouts = useCallback(async () => {
         try {
             const response = await fetch("http://localhost:9000/workouts", {
                 headers: {
@@ -32,9 +32,9 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
         } catch (error) {
             console.error("Error fetching workouts:", error);
         }
-    };
+    }, [handleLogout]);
 
-    useEffect(() => {fetchWorkouts();}, []);
+    useEffect(() => {fetchWorkouts();}, [fetchWorkouts]);
 
     const handleSubmit = async (e) => {
     e.preventDefault();
