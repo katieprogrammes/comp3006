@@ -124,6 +124,9 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
     };
 
     const handleDelete = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this exercise?");
+        if (!confirmDelete) return;
+
         try {
             const response = await fetch(`http://localhost:9000/exercises/${id}`, {
                 method: "DELETE",
@@ -168,9 +171,9 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                 Back to Workouts
             </button>
 
-            <h1 className="text-center">Exercises for {workout.workoutName}</h1>
+            <h1 className="text-center">Exercises for <strong>{workout.workoutName}</strong></h1>
             <h4 className="text-center text-muted">
-                {workout.muscleGroup}
+                Muscle Group: <strong>{workout.muscleGroup}</strong>
             </h4>
 
             <div className="text-center mt-3">
@@ -190,7 +193,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                     <h2 className="text-center">{editingExerciseId ? "Edit Exercise" : "Create a New Exercise"}</h2>
 
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
+                        <div className="mb-4">
                             <label htmlFor="exerciseName" className="form-label">
                                 Exercise Name:
                             </label>
@@ -205,7 +208,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             />
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-4">
                             <label htmlFor="exerciseSets" className="form-label">
                                 Sets:
                             </label>
@@ -220,7 +223,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             />
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-4">
                             <label htmlFor="exerciseReps" className="form-label">
                                 Reps:
                             </label>
@@ -235,7 +238,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             />
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-4">
                             <label htmlFor="exerciseWeight" className="form-label">
                                 Weight (kg):
                             </label>
@@ -243,14 +246,14 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                                 type="number"
                                 id="exerciseWeight"
                                 className="form-control form-control-lg"
-                                placeholder="Weight"
+                                placeholder="Weight (kg)"
                                 value={exerciseWeight}
                                 onChange={(e) => setExerciseWeight(e.target.value)}
                                 required
                             />
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-4">
                             <label htmlFor="exerciseDate" className="form-label">
                                 Date:
                             </label>
@@ -265,7 +268,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             />
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-4">
                             <label htmlFor="exerciseNotes" className="form-label">
                                 Notes:
                             </label>
@@ -278,14 +281,14 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-success">
+                        <button type="submit" className="btn btn-success btn-lg">
                             {editingExerciseId ? "Update Exercise" : "Create Exercise"}
                         </button>
 
                         {editingExerciseId && (
                             <button
                                 type="button"
-                                className="btn btn-secondary ms-2"
+                                className="btn btn-secondary btn-lg"
                                 onClick={() => {
                                     setExerciseName("");
                                     setExerciseSets("");
@@ -313,9 +316,7 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                     <div className="mt-3">
                         {exerciseNames.map((exerciseName) => (
                             <section key={exerciseName} className="mb-5">
-                                <h3 className="text-center mb-3 text-decoration-underline">
-                                    {exerciseName}
-                                </h3>
+                                
 
                                 <div className="row justify-content-center ">
                                     {[...groupedExercises[exerciseName]]
@@ -331,6 +332,9 @@ const Exercises = ({ workout, setSelectedWorkout }) => {
                                             >
                                                 <div className="card h-100">
                                                     <div className="card-body d-flex flex-column">
+                                                        <h3 className="text-center mb-3">
+                                                            {exerciseName}
+                                                        </h3>
                                                         <p className="card-text">
                                                             <strong>Sets:</strong>{" "}
                                                             {exercise.sets}

@@ -135,11 +135,11 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
 
             {showWorkoutForm && (
                 <section  className="entry-form mt-4">
-                    <h2 className="text-center">{editingWorkoutId ? "Edit Workout" : "Create a New Workout"}</h2>
+                    <h2 className="text-center mb-4">{editingWorkoutId ? "Edit Workout" : "Create a New Workout"}</h2>
                     <form onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="workoutName" className="form-label">Workout Name:</label>
-                            <input className="form-control form-control-lg"
+                            <input className="form-control form-control-lg mb-4"
                                 type="text"
                                 placeholder="Workout Name"
                                 id="workoutName"
@@ -150,7 +150,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="workoutType" className="form-label">Workout Type:</label>
-                            <select className="form-select form-control-lg"
+                            <select className="form-select form-control-lg mb-4"
                                 id="workoutType"
                                 value={workoutType}
                                 onChange={(e) => setWorkoutType(e.target.value)}
@@ -165,7 +165,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="muscleGroup" className="form-label">Muscle Group:</label>
-                            <input className="form-control form-control-lg"
+                            <input className="form-control form-control-lg mb-4"
                                 type="text"
                                 id="muscleGroup"
                                 value={muscleGroup}
@@ -175,7 +175,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="date" className="form-label">Date Created:</label>
-                            <input className="form-control form-control-lg"
+                            <input className="form-control form-control-lg mb-4"
                                 type="date"
                                 id="date"
                                 value={date}
@@ -186,7 +186,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                         <div className="mb-3">
                             <label htmlFor="notes" className="form-label">Notes:</label>
                             <textarea
-                                className="form-control form-control-lg"
+                                className="form-control form-control-lg mb-4"
                                 id="notes"
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
@@ -203,7 +203,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                         {editingWorkoutId && (
                         <button
                             type="button"
-                            className="btn btn-secondary ms-2"
+                            className="btn btn-secondary btn-lg"
                             onClick={() => {
                                 setWorkoutName("");
                                 setWorkoutType("");
@@ -265,7 +265,7 @@ const Workouts = ({ setCurrentPage, handleLogout }) => {
                                                     setSelectedWorkout(workout)
                                                 }
                                             >
-                                                Manage Exercises
+                                                Add/Manage Exercises
                                             </button>
 
                                             <button
