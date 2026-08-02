@@ -24,6 +24,7 @@ services:
         condition: service_healthy
     environment:
       MONGO_URI: mongodb://root:example@mongo:27017/gym?authSource=admin
+      MONGO_TEST_URI: mongodb://root:example@mongo:27017/gym_test?authSource=admin
       JWT_SECRET: hello
   
   

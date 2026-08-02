@@ -1,14 +1,9 @@
-import express from "express";
 import mongoose from "mongoose";
-import cors from "cors";
-import usersRouter from "./routes/users.js";
-import authRouter from "./routes/auth.js";
-import workoutsRouter from "./routes/workouts.js";
-import exercisesRouter from "./routes/exercises.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
-const app = express();
+import app from "./app.js";
+
 const port = 9000;
 
 const server = createServer(app);
@@ -22,17 +17,6 @@ const io = new Server(server, {
 
 app.set("io", io);
 
-app.use(express.json());
-app.use(cors());
-
-app.use("/workouts", workoutsRouter);
-app.use("/users", usersRouter);
-app.use("/exercises", exercisesRouter);
-app.use("/auth", authRouter);
-
-app.get("/", (req, res) => {
-    res.send("Gym Workout Record System Backend");
-});
 
 const connectToMongo = async () => {
     while (true) {

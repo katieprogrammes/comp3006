@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha -u tdd"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --coverage"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,8 @@
   "devDependencies": {
     "chai": "4.5.0",
     "chai-http": "4.4.0",
-    "mocha": "^11.7.5"
+    "jest": "^30.4.2",
+    "mocha": "^11.7.5",
+    "supertest": "^7.2.2"
   }
 }
